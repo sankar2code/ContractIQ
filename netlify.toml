@@ -3,5 +3,24 @@
   command = "npm run build"
   publish = ".next"
 
+[build.environment]
+  # Netlify's secret scanner flags every configured env var it finds
+  # anywhere in the build output — it has no concept of "meant to be
+  # public". These three are false positives, not real secrets:
+  #   NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY — the
+  #     NEXT_PUBLIC_ prefix means Next.js deliberately inlines them into
+  #     the client bundle; they're protected by Supabase RLS, not secrecy
+  #     (see contractiq-app/lib/supabase/client.ts).
+  #   OPENAI_MODEL — just the string "gpt-4o", a model identifier, not
+  #     sensitive; it legitimately appears in server function code because
+  #     it's read there (contractiq-app/lib/openai/extraction.ts).
+  # Real secrets (OPENAI_API_KEY, SUPABASE_SERVICE_ROLE_KEY, CRON_SECRET)
+  # are deliberately NOT in this list — they remain fully scanned. They
+  # only ever appear as runtime `process.env.X` lookups in server-only
+  # files (contractiq-app/lib/openai/client.ts, lib/supabase/admin.ts),
+  # never as literal values, so the scanner should never find them in the
+  # build output in the first place.
+  SECRETS_SCAN_OMIT_KEYS = "OPENAI_MODEL,NEXT_PUBLIC_SUPABASE_ANON_KEY,NEXT_PUBLIC_SUPABASE_URL"
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
