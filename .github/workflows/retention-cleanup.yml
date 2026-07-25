@@ -1,0 +1,30 @@
+name: Retention cleanup
+
+# Triggers the 90-day contract retention sweep (docs/specs/09-contract-deletion-and-retention.md).
+# The route handler itself (contractiq-app/app/api/cron/retention-cleanup/route.ts)
+# is platform-agnostic — a plain secret-protected HTTP endpoint — but
+# contractiq-app/vercel.json's `crons` block only does anything when hosted
+# on Vercel. This workflow is the trigger for any other host (e.g. Netlify),
+# and works alongside vercel.json without conflict if ever deployed there
+# too (running the sweep twice a day is harmless — it's idempotent).
+#
+# Required repo secrets (Settings > Secrets and variables > Actions):
+#   APP_URL      — the deployed site's base URL, e.g. https://contractiq.example.com
+#   CRON_SECRET  — must match the CRON_SECRET env var set on the hosting platform
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # daily at 03:00 UTC — same schedule as vercel.json
+  workflow_dispatch: {} # allows a manual run from the Actions tab
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call retention cleanup endpoint
+        run: |
+          curl --fail-with-body -sS -X POST "${APP_URL}/api/cron/retention-cleanup" \
+            -H "Authorization: Bearer ${CRON_SECRET}"
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
