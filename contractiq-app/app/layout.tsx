@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Newsreader, Instrument_Sans, JetBrains_Mono } from 'next/font/google'
 import { Providers } from './providers'
+import { themeInitScript } from '@/lib/theme'
 import './globals.css'
 
 const newsreader = Newsreader({
@@ -36,9 +37,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      // suppressHydrationWarning: the theme-init script (below) mutates
+      // this element's class list before React hydrates, which would
+      // otherwise cause a client/server markup mismatch warning for a
+      // change that is intentional and correct.
+      suppressHydrationWarning
       className={`${newsreader.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`}
     >
       <body className="font-sans bg-paper text-ink-900 antialiased">
+        <script
+          // Must run before Providers/children render, and before paint —
+          // see lib/theme.ts for why.
+          dangerouslySetInnerHTML={{ __html: themeInitScript() }}
+        />
         <Providers>{children}</Providers>
       </body>
     </html>

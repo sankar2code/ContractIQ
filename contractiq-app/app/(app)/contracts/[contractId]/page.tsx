@@ -174,7 +174,7 @@ function ContractErrorState({ contractId }: { contractId: string }) {
         size="sm"
         onClick={handleRetry}
         disabled={isRetrying}
-        className="mt-3 border-red-200"
+        className="mt-3 border-red-100"
       >
         {isRetrying ? 'Retrying…' : 'Retry processing'}
       </Button>

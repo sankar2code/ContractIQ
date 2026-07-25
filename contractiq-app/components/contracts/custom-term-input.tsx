@@ -61,7 +61,7 @@ export function CustomTermInput({ value, onChange, max, disabled }: CustomTermIn
                 onClick={() => removeTerm(term)}
                 disabled={disabled}
                 aria-label={`Remove ${term}`}
-                className="ml-1 rounded-full p-0.5 hover:bg-indigo-200"
+                className="ml-1 rounded-full p-0.5 hover:bg-indigo-100"
               >
                 <X className="h-3 w-3" />
               </button>

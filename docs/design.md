@@ -36,6 +36,22 @@ Paper surfaces: `--paper-0 #FAFAF7` (page bg, warm off-white, not stark white), 
 
 **The confidence scale (green/amber/red) is the system's real semantic layer** — every clause is colored by AI confidence, not generic success/error. Color is never the only signal: always paired with the numeric % and a tier word.
 
+### Dark theme
+
+Added post-MVP as a user-toggleable theme (top-right toggle on every surface — marketing header, app header, auth screens). Same semantic roles as the light palette (900 = strongest emphasis, 50 = subtlest tint) recalibrated for a dark surface — **not** a literal inversion of the light hex values, since a token used as text (needs to go light-on-dark) and one used as a background tint (needs to stay a dark, low-contrast surface) require different treatment even though both are "900" or "50" in the light scale.
+
+| Family | 900 | 700 | 500 (base) | 300 | 100 | 50 |
+|---|---|---|---|---|---|---|
+| Ink/Neutral | `#F5F6F8` | `#C6CAD3` | `#8B93A3` | `#545B6C` | `#2A2E38` | `#1C1F27` |
+| Indigo (brand) | `#D6DAFB` | `#B7C0F8` | `#7C89F2` | `#4A5490` | `#262C52` | `#1E2340` |
+| Green (high confidence) | `#6FCF97` | — | `#34A66C` | — | `#1F3A2C` | `#142A1E` |
+| Amber (medium confidence) | `#F0B94D` | — | `#D99A2B` | — | `#3D2F13` | `#2B2110` |
+| Red (low confidence) | `#F28B8B` | — | `#E05252` | — | `#3D1E1E` | `#2B1616` |
+
+Paper surfaces (dark): page bg `#12141A`, card/elevated surface `#1B1E26` (slightly lighter than page bg, same "elevation via lightness" logic as the light theme's paper-0 → paper-white step).
+
+Two components are deliberately **exempt** from theme-flipping — Tooltip (fixed dark bg / white text in both themes; a tooltip is a high-contrast overlay, not page chrome) and the Dialog backdrop scrim (fixed black at 50% opacity in both themes; a modal backdrop should always dim toward black). Implementation: every color above is a CSS custom property (`app/globals.css`, `:root` / `:root.dark`) that the same Tailwind utility classes (`bg-ink-900`, `text-indigo-500`, ...) resolve through — components never branch on theme directly.
+
 ## Typography
 
 No brand font files supplied — nearest Google Fonts matches used (flagged in `readme.md`).

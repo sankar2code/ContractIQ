@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/supabase/auth-context'
 import { SignOutButton } from '@/components/auth/sign-out-button'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { cn } from '@/lib/utils'
 
 const NAV_LINKS = [
@@ -51,6 +52,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 {link.label}
               </Link>
             ))}
+            <ThemeToggle />
             <SignOutButton />
           </nav>
         </div>

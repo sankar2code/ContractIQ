@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Gauge, MapPin, ListPlus, MessageSquareText } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { cn } from '@/lib/utils'
 
 const FEATURES = [
@@ -61,6 +62,7 @@ export default function MarketingPage() {
           <Link href="/sign-up" className={cn(buttonVariants({ variant: 'primary', size: 'sm' }))}>
             Get Started Free
           </Link>
+          <ThemeToggle />
         </nav>
       </header>
 

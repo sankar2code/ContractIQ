@@ -1,48 +1,59 @@
 import type { Config } from 'tailwindcss'
 
-// Design tokens sourced 1:1 from docs/design.md — the ContractIQ design system.
+// Design tokens sourced from docs/design.md — the ContractIQ design system,
+// extended with a dark theme (docs/design.md "Dark theme" section). Every
+// shade resolves through a CSS variable (app/globals.css, :root / .dark) so
+// existing utility classes (bg-ink-900, text-indigo-500, ...) automatically
+// repaint when the `dark` class toggles on <html> — no component changes
+// needed. Variables hold "R G B" triplets (not hex) so Tailwind's opacity
+// modifiers (bg-indigo-500/10) keep working via rgb(var(...) / <alpha-value>).
+function withOpacity(variable: string) {
+  return `rgb(var(${variable}) / <alpha-value>)`
+}
+
 const config: Config = {
+  darkMode: 'class',
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
         ink: {
-          900: '#1C1F26',
-          700: '#454A56',
-          500: '#767C8A',
-          300: '#C4C8D0',
-          100: '#EEEFF2',
-          50: '#F5F5F3',
+          900: withOpacity('--color-ink-900'),
+          700: withOpacity('--color-ink-700'),
+          500: withOpacity('--color-ink-500'),
+          300: withOpacity('--color-ink-300'),
+          100: withOpacity('--color-ink-100'),
+          50: withOpacity('--color-ink-50'),
         },
         indigo: {
-          900: '#1B2266',
-          700: '#2B3AAE',
-          500: '#3B4FE0',
-          300: '#A3AEF3',
-          100: '#E4E7FC',
-          50: '#F1F2FE',
+          900: withOpacity('--color-indigo-900'),
+          700: withOpacity('--color-indigo-700'),
+          500: withOpacity('--color-indigo-500'),
+          300: withOpacity('--color-indigo-300'),
+          100: withOpacity('--color-indigo-100'),
+          50: withOpacity('--color-indigo-50'),
         },
         green: {
-          900: '#0F5C3D',
-          500: '#1B8A5A',
-          100: '#E7F6EE',
-          50: '#F2FAF5',
+          900: withOpacity('--color-green-900'),
+          500: withOpacity('--color-green-500'),
+          100: withOpacity('--color-green-100'),
+          50: withOpacity('--color-green-50'),
         },
         amber: {
-          900: '#8A5A12',
-          500: '#B7791F',
-          100: '#FDF3E0',
-          50: '#FEF8ED',
+          900: withOpacity('--color-amber-900'),
+          500: withOpacity('--color-amber-500'),
+          100: withOpacity('--color-amber-100'),
+          50: withOpacity('--color-amber-50'),
         },
         red: {
-          900: '#8F2C2C',
-          500: '#C23B3B',
-          100: '#FBEAEA',
-          50: '#FDF4F4',
+          900: withOpacity('--color-red-900'),
+          500: withOpacity('--color-red-500'),
+          100: withOpacity('--color-red-100'),
+          50: withOpacity('--color-red-50'),
         },
         paper: {
-          DEFAULT: '#FAFAF7',
-          white: '#FFFFFF',
+          DEFAULT: withOpacity('--color-paper'),
+          white: withOpacity('--color-paper-white'),
         },
       },
       fontFamily: {

@@ -17,7 +17,11 @@ const TooltipContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        'z-50 max-w-xs rounded-md bg-ink-900 px-3 py-2 text-xs leading-relaxed text-paper-white shadow-md data-[state=delayed-open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=delayed-open]:fade-in-0',
+        // Deliberately fixed dark-bg/light-text in both themes (not the
+        // ink-900/paper-white tokens, which flip for dark mode) — a
+        // tooltip is a high-contrast overlay that should look the same
+        // regardless of the app's current theme.
+        'z-50 max-w-xs rounded-md bg-neutral-900 px-3 py-2 text-xs leading-relaxed text-white shadow-md data-[state=delayed-open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=delayed-open]:fade-in-0',
         className
       )}
       {...props}

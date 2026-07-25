@@ -3,6 +3,78 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Light theme — docs/design.md primitive palette, as "R G B" triplets */
+    --color-ink-900: 28 31 38;
+    --color-ink-700: 69 74 86;
+    --color-ink-500: 118 124 138;
+    --color-ink-300: 196 200 208;
+    --color-ink-100: 238 239 242;
+    --color-ink-50: 245 245 243;
+
+    --color-indigo-900: 27 34 102;
+    --color-indigo-700: 43 58 174;
+    --color-indigo-500: 59 79 224;
+    --color-indigo-300: 163 174 243;
+    --color-indigo-100: 228 231 252;
+    --color-indigo-50: 241 242 254;
+
+    --color-green-900: 15 92 61;
+    --color-green-500: 27 138 90;
+    --color-green-100: 231 246 238;
+    --color-green-50: 242 250 245;
+
+    --color-amber-900: 138 90 18;
+    --color-amber-500: 183 121 31;
+    --color-amber-100: 253 243 224;
+    --color-amber-50: 254 248 237;
+
+    --color-red-900: 143 44 44;
+    --color-red-500: 194 59 59;
+    --color-red-100: 251 234 234;
+    --color-red-50: 253 244 244;
+
+    --color-paper: 250 250 247;
+    --color-paper-white: 255 255 255;
+  }
+
+  :root.dark {
+    /* Dark theme — same semantic roles (900 = strongest emphasis, 50 =
+       subtlest tint) recalibrated for a dark surface, not an inversion of
+       the light hex values. See docs/design.md "Dark theme". */
+    --color-ink-900: 245 246 248;
+    --color-ink-700: 198 202 211;
+    --color-ink-500: 139 147 163;
+    --color-ink-300: 84 91 108;
+    --color-ink-100: 42 46 56;
+    --color-ink-50: 28 31 39;
+
+    --color-indigo-900: 214 218 251;
+    --color-indigo-700: 183 192 248;
+    --color-indigo-500: 124 137 242;
+    --color-indigo-300: 74 84 144;
+    --color-indigo-100: 38 44 82;
+    --color-indigo-50: 30 35 64;
+
+    --color-green-900: 111 207 151;
+    --color-green-500: 52 166 108;
+    --color-green-100: 31 58 44;
+    --color-green-50: 20 42 30;
+
+    --color-amber-900: 240 185 77;
+    --color-amber-500: 217 154 43;
+    --color-amber-100: 61 47 19;
+    --color-amber-50: 43 33 16;
+
+    --color-red-900: 242 139 139;
+    --color-red-500: 224 82 82;
+    --color-red-100: 61 30 30;
+    --color-red-50: 43 22 22;
+
+    --color-paper: 18 20 26;
+    --color-paper-white: 27 30 38;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -13,5 +85,19 @@
 
   :focus-visible {
     @apply outline-none ring-2 ring-indigo-500 ring-offset-2 ring-offset-paper;
+  }
+
+  /* Smooth, understated theme-switch transition — matches docs/design.md's
+     motion philosophy (120ms ease-out, no bounce/spring). Scoped to color
+     properties only so it never fights layout/transform transitions
+     declared by individual components (e.g. hover:scale on buttons). */
+  body,
+  body * {
+    transition:
+      background-color 150ms ease-out,
+      border-color 150ms ease-out,
+      color 150ms ease-out,
+      fill 150ms ease-out,
+      stroke 150ms ease-out;
   }
 }
